@@ -46,6 +46,7 @@ def index(request):
                 browser = browser_type.launch() 
                 page = browser.new_page() 
                 page.goto(url) 
+                print(page.content())
                 products.extend(extractProducts(page.content()))
                 browser.close() 
 
