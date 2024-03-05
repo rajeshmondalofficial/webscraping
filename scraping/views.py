@@ -6,6 +6,7 @@ from django.template import loader
 import requests
 from bs4 import BeautifulSoup
 import re
+import cloudscraper
 
 # url = "https://www.gumtree.com/for-sale/video-games-consoles"
 
@@ -14,13 +15,16 @@ def index(request):
 
     if request.method == "POST":
         url = request.POST.get("website")
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
+
+        scraper = cloudscraper.create_scraper()
+        # headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
+        # response = requests.get(url, headers=headers)
+        # response.raise_for_status()
+        response = scraper.get(url)
         products = []
         print("**** Response ***")
         print(response)
-        if response.status_code == 200:
+        if True:
             soup = BeautifulSoup(response.text, 'html.parser')
             
             product_elements = soup.find_all('article', {'data-q': 'search-result'})
